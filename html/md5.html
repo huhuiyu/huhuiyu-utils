@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>md5工具</title>
+</head>
+
+<body>
+
+  <div style="text-align: center;">
+    <input type="text" id="txtMd5" placeholder="请输入">
+    <button id="btnMd5">md5</button>
+    <span id="spResult"></span>
+  </div>
+  <script src="md5.js"></script>
+  <script>
+    var txtMd5 = document.getElementById('txtMd5');
+    var spResult = document.getElementById('spResult');
+    document.getElementById("btnMd5").addEventListener('click', function () {
+      if (txtMd5.value.length == 0) {
+        spResult.innerHTML = '请输入要转换的信息';
+        return;
+      }
+      spResult.innerHTML = huhuiyu.MD5Util.md5(txtMd5.value);
+    });
+  </script>
+</body>
+
+</html>

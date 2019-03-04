@@ -36,4 +36,8 @@
   divStringResult.innerHTML += '去头尾空格："' + strR1 + '"结果："' + huhuiyu.trim(strR1) + '"<br>';
   divStringResult.innerHTML += '整数判断' + strR1 + ':' + huhuiyu.isInt(strR1) + ',' + strR4 + ':' + huhuiyu.isInt(strR4) + ',' + strR5 + ':' + huhuiyu.isInt(strR5) + '<br>';
   divStringResult.innerHTML += 'uuid:' + huhuiyu.uuid() + '<br>uuid32:' + huhuiyu.uuid32() + '<br>';
+  //其它===================================================================================
+  var divPhoneResult = document.getElementById('divPhoneResult');
+  divPhoneResult.innerHTML = '是否是手机浏览器：' + huhuiyu.isMobile() + '<br>';
+  divPhoneResult.innerHTML += '浏览器信息：<pre style="text-align: left;">' + huhuiyu.formatJson(huhuiyu.getBrowserInfo(), true) + '<pre><br>';
 })();

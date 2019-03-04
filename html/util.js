@@ -172,6 +172,10 @@
     return huhuiyu.replaceAll(huhuiyu.uuid(), '-', '');
   };
 
+  huhuiyu.isArray = function(obj) {
+    return Object.prototype.toString.call(obj).toLowerCase() === '[object array]';
+  };
+
   //字符串工具结束=========================================================================================================
 
   //json工具开始==========================================================================================================
@@ -183,27 +187,34 @@
     other: 'color: maroon;'
   };
 
-  huhuiyu.isJson = function(str) {
-    if (typeof str == 'string') {
+  //判断对象或者字符串是否为json，否就返回null，是就返回json
+  huhuiyu.isJson = function(info) {
+    //检查参数
+    if (!info) {
+      return null;
+    }
+    if (typeof info == 'object' && Object.prototype.toString.call(info).toLowerCase() == '[object object]' && !info.length) {
+      return info;
+    }
+    if (typeof info == 'string') {
       try {
-        var obj = JSON.parse(str);
-        if (typeof obj == 'object' && obj) {
-          return true;
-        } else {
-          return false;
+        var obj = JSON.parse(info);
+        if (typeof obj == 'object' && Object.prototype.toString.call(obj).toLowerCase() == '[object object]' && !obj.length) {
+          return obj;
         }
+        return null;
       } catch (e) {
-        console.log('error：' + str + '!!!' + e);
-        return false;
+        return null;
       }
     } else {
-      return false;
+      return null;
     }
   };
 
   huhuiyu.formatJson = function(json, highlight) {
-    if (typeof json == 'string') {
-      json = JSON.parse(json);
+    var jsonObj = huhuiyu.isJson(json);
+    if (!jsonObj) {
+      return '';
     }
     // 缩进显示json字符串
     var result = JSON.stringify(json, undefined, 4);
@@ -237,6 +248,39 @@
     });
     return json;
   };
+
+  huhuiyu.jsonToQueryString = function(json) {
+    var jsonObj = huhuiyu.isJson(json);
+    if (!jsonObj) {
+      return '';
+    }
+    return jsonObjToQueryString(jsonObj, '');
+  };
+
+  function jsonObjToQueryString(json, basename) {
+    var qs = '';
+    for (var key in json) {
+      var keyname = basename ? basename + '.' + key : key;
+      var value = json[key];
+      var jsonValue = huhuiyu.isJson(value);
+      if (jsonValue) {
+        qs += '&' + jsonObjToQueryString(jsonValue, keyname);
+      } else if (huhuiyu.isArray(value)) {
+        for (var i = 0; i < value.length; i++) {
+          jsonValue = huhuiyu.isJson(value[i]);
+          if (jsonValue) {
+            qs += '&' + jsonObjToQueryString(jsonValue, keyname);
+          } else {
+            qs += '&' + keyname + '=' + encodeURI(value);
+          }
+        }
+      } else {
+        qs += '&' + keyname + '=' + encodeURI(value);
+      }
+    }
+    qs = qs.replace('&', '');
+    return qs;
+  }
 
   //json工具结束==========================================================================================================
 

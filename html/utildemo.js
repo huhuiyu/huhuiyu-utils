@@ -12,14 +12,18 @@
   //json===================================================================================
   var txtJson = document.getElementById('txtJson');
   var preJson = document.getElementById('preJson');
+  var jsonTestObj = { tbAdmin: { username: '张三', password: 'abc-123', dept: { deptId: 100 } } };
+  txtJson.value = JSON.stringify(jsonTestObj);
   document.getElementById('btnJson').addEventListener('click', function() {
-    if (!huhuiyu.isJson(txtJson.value)) {
-      preJson.innerHTML = '请输入json格式字符串';
+    var json = huhuiyu.isJson(txtJson.value);
+    if (json) {
+      preJson.innerHTML = huhuiyu.formatJson(json, true) + '<br>' + huhuiyu.formatJson(json) + '<br>' + huhuiyu.jsonToQueryString(json);
       return;
     }
-    var json = JSON.parse(txtJson.value);
-    preJson.innerHTML = huhuiyu.formatJson(txtJson.value, true) + '<br/>' + huhuiyu.formatJson(json);
+    preJson.innerHTML = '请输入json格式字符串';
   });
+
+  console.log(jsonTestObj, '==>', huhuiyu.jsonToQueryString(jsonTestObj));
   //字符串===================================================================================
   var divStringResult = document.getElementById('divStringResult');
   var strR1 = ' 张三  张三丰  小张 ';

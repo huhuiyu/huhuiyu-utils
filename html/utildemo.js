@@ -12,7 +12,7 @@
   //json===================================================================================
   var txtJson = document.getElementById('txtJson');
   var preJson = document.getElementById('preJson');
-  var jsonTestObj = { tbAdmin: { username: '张三', password: 'abc-123', dept: { deptId: 100 } } };
+  var jsonTestObj = { tbAdmin: { username: '张三', password: '&abc=123', dept: { deptId: 100, values: ['a', 'aa', 'aaa'] } } };
   txtJson.value = JSON.stringify(jsonTestObj);
   document.getElementById('btnJson').addEventListener('click', function() {
     var json = huhuiyu.isJson(txtJson.value);

@@ -265,17 +265,8 @@
       var jsonValue = huhuiyu.isJson(value);
       if (jsonValue) {
         qs += '&' + jsonObjToQueryString(jsonValue, keyname);
-      } else if (huhuiyu.isArray(value)) {
-        for (var i = 0; i < value.length; i++) {
-          jsonValue = huhuiyu.isJson(value[i]);
-          if (jsonValue) {
-            qs += '&' + jsonObjToQueryString(jsonValue, keyname);
-          } else {
-            qs += '&' + keyname + '=' + encodeURI(value);
-          }
-        }
       } else {
-        qs += '&' + keyname + '=' + encodeURI(value);
+        qs += '&' + encodeURIComponent(keyname) + '=' + encodeURIComponent(value);
       }
     }
     qs = qs.replace('&', '');
